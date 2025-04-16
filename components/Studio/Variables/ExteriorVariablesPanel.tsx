@@ -7,6 +7,7 @@ import DropdownSelector from "./DropdownSelector"
 import TagSelector from "./TagSelector"
 import SliderControl from "./SliderControl"
 import { Palette, Clock, Home, Layers } from "lucide-react"
+import SafeImage from "@/components/SafeImage"
 
 // Mock data for the exterior selectors
 const exteriorTypes = [
@@ -247,9 +248,10 @@ export default function ExteriorVariablesPanel({ onGenerateDesign }: ExteriorVar
               return (
                 <div key={index} className="relative min-w-[80px] h-[80px] rounded-md overflow-hidden">
                   {validRenderUrl && (
-                    <img
-                      src={renderUrl || "/placeholder.svg"}
+                    <SafeImage
+                      src={renderUrl}
                       alt={`Cached render ${index + 1}`}
+                      fill
                       className="w-full h-full object-cover"
                     />
                   )}

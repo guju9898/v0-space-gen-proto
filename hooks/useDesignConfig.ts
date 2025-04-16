@@ -71,7 +71,8 @@ export function DesignConfigProvider({ children }: { children: React.ReactNode }
   const [config, setConfig] = useState<DesignConfig>(initialConfig)
   const [renderType, setRenderType] = useState<"interior" | "exterior" | "landscape">("interior")
 
-  const updateConfig = useCallback(<K extends keyof DesignConfig>(key: K, value: DesignConfig[K]) => {
+  type ConfigKey = keyof DesignConfig
+  const updateConfig = useCallback((key: ConfigKey, value: DesignConfig[ConfigKey]) => {
     // If value is a string, check if it's empty and convert to null
     if (typeof value === "string" && value.trim() === "") {
       setConfig((prev) => ({

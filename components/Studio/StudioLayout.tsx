@@ -1,28 +1,29 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import type { ReactNode } from "react"
 import { Info } from "lucide-react"
-import { useDesignConfig } from "@/hooks/useDesignConfig"
-import RenderButton from "./RenderButton"
 
 interface StudioLayoutProps {
   children?: ReactNode
-  imagePanel: ReactNode
-  controlsPanel: ReactNode
-  resultsPanel: ReactNode
+  sidebarContent: ReactNode
+  formContent: ReactNode
+  previewContent: ReactNode
+  requestContent: ReactNode
   onOpenTips?: () => void
+  activeTab?: "interior" | "exterior" | "landscape"
+  onTabChange?: (tab: "interior" | "exterior" | "landscape") => void
 }
 
 export default function StudioLayout({
   children,
-  imagePanel,
-  controlsPanel,
-  resultsPanel,
+  sidebarContent,
+  formContent,
+  previewContent,
+  requestContent,
   onOpenTips,
+  activeTab = "interior",
+  onTabChange = () => {},
 }: StudioLayoutProps) {
-  const [activeTab, setActiveTab] = useState<"interior" | "exterior" | "landscape">("interior")
-  const { config } = useDesignConfig()
-
   return (
     <div className="flex flex-col md:flex-row h-full bg-black text-white">
       {/* Left Sidebar */}
@@ -34,7 +35,7 @@ export default function StudioLayout({
               className={`px-4 py-2 rounded-md text-sm font-medium mr-2 md:mr-0 md:mb-2 ${
                 activeTab === "interior" ? "bg-zinc-800 text-white" : "text-zinc-400 hover:text-white"
               }`}
-              onClick={() => setActiveTab("interior")}
+              onClick={() => onTabChange("interior")}
             >
               Interior
             </button>
@@ -42,7 +43,7 @@ export default function StudioLayout({
               className={`px-4 py-2 rounded-md text-sm font-medium mr-2 md:mr-0 md:mb-2 ${
                 activeTab === "exterior" ? "bg-zinc-800 text-white" : "text-zinc-400 hover:text-white"
               }`}
-              onClick={() => setActiveTab("exterior")}
+              onClick={() => onTabChange("exterior")}
             >
               Exterior
             </button>
@@ -50,7 +51,7 @@ export default function StudioLayout({
               className={`px-4 py-2 rounded-md text-sm font-medium ${
                 activeTab === "landscape" ? "bg-zinc-800 text-white" : "text-zinc-400 hover:text-white"
               }`}
-              onClick={() => setActiveTab("landscape")}
+              onClick={() => onTabChange("landscape")}
             >
               Landscape
             </button>
@@ -72,25 +73,25 @@ export default function StudioLayout({
           </div>
         </div>
 
-        {/* Image Panel */}
-        <div className="mt-4">{imagePanel}</div>
+        {/* Sidebar Content */}
+        <div className="mt-4">{sidebarContent}</div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 overflow-y-auto">
         <div className="flex flex-col h-full">
-          {/* Controls Panel */}
-          <div className="flex-1 mb-6 space-y-6">{controlsPanel}</div>
-
-          {/* Render Button */}
-          <div className="mt-auto">
-            <RenderButton disabled={!config.roomType || !config.designStyle} />
-          </div>
+          {/* Form Content */}
+          <div className="flex-1 mb-6 space-y-6">{formContent}</div>
         </div>
       </div>
 
-      {/* Right Sidebar */}
-      <div className="w-full md:w-80 p-4 md:p-6 border-t md:border-t-0 md:border-l border-zinc-800">{resultsPanel}</div>
+      {/* Right Sidebar - Preview and Request */}
+      <div className="w-full md:w-80 p-4 md:p-6 border-t md:border-t-0 md:border-l border-zinc-800">
+        <div className="flex flex-col h-full">
+          <div className="flex-1 mb-6">{previewContent}</div>
+          <div>{requestContent}</div>
+        </div>
+      </div>
     </div>
   )
 }
