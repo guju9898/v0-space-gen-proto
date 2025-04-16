@@ -30,6 +30,19 @@ interface DesignConfig {
   // Add more properties as needed
 }
 
+// Define named types for the update functions
+type UpdateConfigFn = <K extends keyof DesignConfig>(key: K, value: DesignConfig[K]) => void
+type UpdateTypeConfigFn = (renderType: "interior" | "exterior" | "landscape", key: string, value: any) => void
+
+interface DesignConfigContextType {
+  config: DesignConfig
+  updateConfig: UpdateConfigFn
+  updateTypeConfig: UpdateTypeConfigFn
+  resetConfig: () => void
+  renderType: "interior" | "exterior" | "landscape"
+  setRenderType: (type: "interior" | "exterior" | "landscape") => void
+}
+
 // Default exterior configuration
 const defaultExteriorConfig: ExteriorConfig = {
   exteriorType: null,
@@ -54,15 +67,6 @@ const initialConfig: DesignConfig = {
   materials: [],
   realism: 50,
   exterior: defaultExteriorConfig, // Include default exterior config
-}
-
-interface DesignConfigContextType {
-  config: DesignConfig
-  updateConfig: <K extends keyof DesignConfig>(key: K, value: DesignConfig[K]) => void
-  updateTypeConfig: (renderType: "interior" | "exterior" | "landscape", key: string, value: any) => void
-  resetConfig: () => void
-  renderType: "interior" | "exterior" | "landscape"
-  setRenderType: (type: "interior" | "exterior" | "landscape") => void
 }
 
 const DesignConfigContext = createContext<DesignConfigContextType | undefined>(undefined)
