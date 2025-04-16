@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
+import SafeImage from "@/components/SafeImage"
 import { Info, Loader2, ChevronRight } from "lucide-react"
 
 interface RenderPreviewProps {
@@ -76,8 +76,8 @@ export default function RenderPreview({
               </div>
             )}
             {/* Only render the Image component when imageSource is a valid string */}
-            <Image
-              src={imageSource || "/placeholder.svg"}
+            <SafeImage
+              src={imageSource}
               alt="Generated design"
               fill
               className={`object-contain transition-opacity duration-300 ${

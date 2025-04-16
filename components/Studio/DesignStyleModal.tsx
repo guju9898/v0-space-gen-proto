@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import Image from "next/image"
+import SafeImage from "@/components/SafeImage"
 import { X } from "lucide-react"
 
 interface DesignStyle {
@@ -80,52 +80,56 @@ export default function DesignStyleModal({ isOpen, onClose, onSelectStyle, selec
 
         <div className="p-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {designStyles.map((style) => (
-              <div
-                key={style.id}
-                className={`relative cursor-pointer rounded-lg overflow-hidden transition-transform hover:scale-105 group ${
-                  selectedStyle === style.id ? "ring-2 ring-purple-500" : ""
-                }`}
-                onClick={() => {
-                  onSelectStyle(style.id)
-                  onClose()
-                }}
-              >
-                <div className="relative aspect-square">
-                  {style.imageUrl && style.imageUrl.trim() !== "" && (
-                    <Image
-                      src={style.imageUrl || "/placeholder.svg"}
-                      alt={style.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                  )}
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-100 group-hover:opacity-90" />
+            {designStyles.map((style) => {
+              const validImageUrl = style.imageUrl && style.imageUrl.trim() !== ""
 
-                {selectedStyle === style.id && (
-                  <div className="absolute top-2 right-2 bg-purple-500 rounded-full p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-white"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
+              return (
+                <div
+                  key={style.id}
+                  className={`relative cursor-pointer rounded-lg overflow-hidden transition-transform hover:scale-105 group ${
+                    selectedStyle === style.id ? "ring-2 ring-purple-500" : ""
+                  }`}
+                  onClick={() => {
+                    onSelectStyle(style.id)
+                    onClose()
+                  }}
+                >
+                  <div className="relative aspect-square">
+                    {validImageUrl && (
+                      <SafeImage
+                        src={style.imageUrl}
+                        alt={style.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                      />
+                    )}
                   </div>
-                )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-100 group-hover:opacity-90" />
 
-                <div className="absolute bottom-2 left-2 text-white font-medium text-sm">{style.name}</div>
-              </div>
-            ))}
+                  {selectedStyle === style.id && (
+                    <div className="absolute top-2 right-2 bg-purple-500 rounded-full p-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-white"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                  )}
+
+                  <div className="absolute bottom-2 left-2 text-white font-medium text-sm">{style.name}</div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

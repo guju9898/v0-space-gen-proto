@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { Upload, X } from "lucide-react"
-import Image from "next/image"
+import SafeImage from "@/components/SafeImage"
 
 interface ImageUploadPanelProps {
   currentImage: string | null
@@ -115,15 +115,13 @@ export default function ImageUploadPanel({
 
         {imageSource ? (
           <div className="relative w-full h-full group">
-            {imageSource && (
-              <Image
-                src={imageSource || "/placeholder.svg"}
-                alt="Uploaded image"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 300px"
-              />
-            )}
+            <SafeImage
+              src={imageSource}
+              alt="Uploaded image"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 300px"
+            />
             {onImageRemove && (
               <button
                 onClick={(e) => {

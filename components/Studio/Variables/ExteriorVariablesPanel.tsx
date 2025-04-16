@@ -241,17 +241,21 @@ export default function ExteriorVariablesPanel({ onGenerateDesign }: ExteriorVar
         <div>
           <h3 className="text-sm font-medium mb-3 text-white">Recent Renders</h3>
           <div className="flex gap-2 overflow-x-auto pb-2">
-            {cachedRenders.map((renderUrl, index) => (
-              <div key={index} className="relative min-w-[80px] h-[80px] rounded-md overflow-hidden">
-                {renderUrl && renderUrl.trim() !== "" && (
-                  <img
-                    src={renderUrl || "/placeholder.svg"}
-                    alt={`Cached render ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-            ))}
+            {cachedRenders.map((renderUrl, index) => {
+              const validRenderUrl = renderUrl && renderUrl.trim() !== ""
+
+              return (
+                <div key={index} className="relative min-w-[80px] h-[80px] rounded-md overflow-hidden">
+                  {validRenderUrl && (
+                    <img
+                      src={renderUrl || "/placeholder.svg"}
+                      alt={`Cached render ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       )}

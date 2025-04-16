@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react"
 import { useEffect, useRef } from "react"
-import Image from "next/image"
+import SafeImage from "@/components/SafeImage"
 
 interface TipItem {
   title: string
@@ -91,15 +91,13 @@ export default function TipsModal({
           <div className="mt-6 bg-black/30 rounded-lg p-4">
             <h3 className="font-medium text-white mb-2">Example of a good photo</h3>
             <div className="relative h-48 w-full">
-              {"/studio/example-room-photo.jpg" && (
-                <Image
-                  src="/studio/example-room-photo.jpg"
-                  alt="Example of a good room photo"
-                  fill
-                  className="object-cover rounded"
-                  sizes="(max-width: 768px) 100vw, 400px"
-                />
-              )}
+              <SafeImage
+                src="/studio/example-room-photo.jpg"
+                alt="Example of a good room photo"
+                fill
+                className="object-cover rounded"
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
             </div>
           </div>
         </div>
